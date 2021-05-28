@@ -1,0 +1,85 @@
+version: "2.0"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: s_reunion
+  steps:
+  - intent: reunion
+  - action: action_hello_world
+
+- story: s_irrelevante
+  steps:
+  - intent: finaliza_reunion
+  - action: action_strategy
+
+- story: s_propuesta_reunion
+  steps:
+  - intent: propuesta_reunion
+  - action: action_hello_world
+
+- story: s_acepta_propuesta_reunion
+  steps:
+  - intent: confirmacion_propuesta_reunion
+  - action: action_hello_world
+
+- story: tareas
+  steps:
+  - intent: working_on_tha_tasks
+  - action: action_tasks
+
+- story: ir_meeting
+  steps:
+  - intent: go_to_meeting
+  - action: action_go_meeting
+
+- story: facilitador_daily
+  steps:
+  - intent: facilitate_daily_meeting
+  - action: action_facilitador
+
+- story: ask_working_on_tha_tasks
+  steps:
+  - intent: what_have_you_been_working_on
+  - action: utter_irrelevante
+
+- story: went_meetings
+  steps:
+  - intent: went_to_meetings
+  - action: action_meetings
+
+- story: start_meeting
+  steps:
+  - intent: started_meeting
+  - action: action_start_meeting
+
+- story: ended_meetings
+  steps:
+  - intent: ended_meeting
+  - action: action_ended_meeting

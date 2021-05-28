@@ -1,0 +1,194 @@
+version: "2.0"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- intent: reunion
+  examples: |
+    - AGBOT1,AGBOT2;Reunion;Tenemos que hacer una reunión;"nombre_reunion"
+
+- intent: ask_fecha_reunion
+  examples: |
+    - AGBOT2,AGBOT1;Reunion;Cuando se va a realizar?;"nombre_reunion"
+
+- intent: fecha_reunion
+  examples: |
+    - AGBOT1,AGBOT2;Reunion;Se realizará: "2020-12-21 05:17:29";"nombre_reunion"
+
+- intent: ask_tema_reunion
+  examples: |
+    - AGBOT2,AGBOT1;Reunion;De que tipo será la reunión?;"nombre_reunion"
+
+- intent: tema_reunion
+  examples: |
+    - AGBOT1,AGBOT2;Reunion;DailyScrum;"nombre_reunion"
+
+- intent: ok_tema_reunion
+  examples: |
+    - AGBOT2,AGBOT1;Reunion;Ok;"nombre_reunion"
+
+- regex: id_reunion
+  examples: |
+    - \d{1,10}
+
+#- regex: list_tareas
+ # examples: |
+  #  - (?[[0-9]{1}?,[0-9]{1}?,[0-9]{1}?])
+- regex: fecha
+  examples: |
+    - (\d{1-4}-\d{2}-\d{2})
+
+- regex: hora
+  examples: |
+    - (\d{2}:\d{2}:\d{2})
+
+- intent: finaliza_reunion
+  examples: |
+    - Finalizo la reunion [1](id_reunion)
+  
+- intent: ok_finaliza_reunion
+  examples: |
+    - AGBOT2,AGBOT1;Reunion;Hasta luego;"nombre_reunion"
+
+
+- intent: propuesta_reunion
+  examples: |
+    - propuesta reunion equipo
+    - propuesta reunion equipo equipo1 hora
+    - propuesta reunion equipo ejemplo ejemplo
+    - propuesta reunion equipo equipo1 tiempo
+
+- intent: negativa_propuesta_reunion
+  examples: |
+    - negativa propuesta reunion equipo
+
+- intent: confirmacion_propuesta_reunion
+  examples: |
+    - confirmacion propuesta reunion equipo
+    - positiva propuesta reunion equipo
+
+- intent: go_to_meeting
+  examples: |
+    - Go to the meeting [1](id_reunion), [1](id_agilebot)
+    - Go to the meeting [1](id_reunion), [2](id_agilebot)
+    - Go to the meeting [1](id_reunion), [3](id_agilebot)
+
+- intent: facilitate_daily_meeting
+  examples: |
+    - Facilitate daily meeting [3](id_facilitador)
+    - Facilitate daily meeting [2](id_facilitador)
+    - Facilitate daily meeting [1](id_facilitador)
+
+- intent: what_have_you_been_working_on
+  examples: |
+    - What have you been working on, 1?
+    - What have you been working on, 2?
+    - What have you been working on, 3?
+
+- intent: working_on_tha_tasks
+  examples: |
+    - I have been working on tha tasks [1, 4, 5]
+    - I have been working on tha tasks [2, 6, 5]
+
+- intent: went_to_meetings
+  examples: |
+    - I went to the meetings [2, 3]
+    - I went to the meetings [7, 5]
+
+- intent: started_meeting
+  examples: |
+    - The meeting [1](id_reunion) started: [2021-05-20](fecha) [11:15:23](hora)
+    - The meeting [2](id_reunion) started: [2021-06-20](fecha) [12:15:23](hora)
+
+- intent: ended_meeting
+  examples: |
+    - The meeting [1](id_reunion) ended: [2021-05-20](fecha) [11:15:23](hora)
+    - The meeting [2](id_reunion) ended: [2021-06-20](fecha) [12:15:23](hora)

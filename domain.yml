@@ -1,0 +1,78 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - reunion
+  - ask_fecha_reunion
+  - fecha_reunion
+  - ask_tema_reunion
+  - tema_reunion
+  - ok_tema_reunion
+  - finaliza_reunion
+  - ok_finaliza_reunion
+  - propuesta_reunion
+  - negativa_propuesta_reunion
+  - confirmacion_propuesta_reunion
+  - go_to_meeting
+  - facilitate_daily_meeting
+  - what_have_you_been_working_on
+  - working_on_tha_tasks
+  - went_to_meetings
+  - started_meeting
+  - ended_meeting
+
+entities:
+  - id_reunion
+  - id_tareas
+  - id_agilebot
+  - id_facilitador
+  - lista_tareas
+  - fecha
+  - hora
+
+slots:
+  fecha_start:
+    type: text
+  hora_start:
+    type: text
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_irrelevante:
+  - text: "Irrelevante al proceso"
+
+actions:
+  - action_hello_world
+  - action_strategy
+  - action_tasks
+  - action_go_meeting
+  - action_facilitador
+  - action_meetings
+  - action_start_meeting
+  - action_ended_meeting
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
