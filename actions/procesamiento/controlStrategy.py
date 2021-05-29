@@ -20,10 +20,17 @@ class ControlStrategy:
                     }
                 }
             },
-            "trabaje_tareas": {
+            "working_on_tha_tasks": {
                 "strategies": {
                     "ControlTask": {
                         "Constructor": factor_strategies.ControlTask()
+                    }
+                }
+            },
+            "participations": {
+                "strategies": {
+                    "MeetingParticipations": {
+                        "Constructor": factor_strategies.MeetingParticipations()
                     }
                 }
             }
@@ -39,6 +46,9 @@ class ControlStrategy:
                 result="La reunion finalizo "+str(valor)+" segundos antes del plazo."
             else:
                 result="La reunion finalizo "+str(valor)+" segundos después del plazo."
+        else:
+            if (strategy.get_name() == "ControlTask") or (strategy.get_name() == "MeetingParticipations"):
+                result=str(value)
         return result
 
     def execute_strategies(self, intent_name: str, data: dict) -> str:

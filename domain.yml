@@ -26,6 +26,7 @@ intents:
   - went_to_meetings
   - started_meeting
   - ended_meeting
+  - participations
 
 entities:
   - id_reunion
@@ -73,6 +74,7 @@ actions:
   - action_meetings
   - action_start_meeting
   - action_ended_meeting
+  - action_participations
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

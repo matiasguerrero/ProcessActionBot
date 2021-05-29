@@ -83,3 +83,8 @@ stories:
   steps:
   - intent: ended_meeting
   - action: action_ended_meeting
+
+- story: s_participations
+  steps:
+  - intent: participations
+  - action: action_participations

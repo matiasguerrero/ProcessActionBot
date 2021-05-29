@@ -58,6 +58,7 @@ class MeetingParticipations(CalculationStrategy):
         """
         self._n_occurrences = 0
         self._d_ocurrences = {}
+        self.result=""
 
     def __str__(self) -> str:
         return "(MeetingParticipations: {})".format(self._n_occurrences)
@@ -72,26 +73,25 @@ class MeetingParticipations(CalculationStrategy):
         Autor: Matias G.
 
         :param event: evento a procesar. El formato del evento es:
-                      {"event_id": "", "time": "", "id_reunion": "",
-                       "participaciones": {"bruno": 5, "matias": 7}}
+                      {'Participations': [{'1': {'cant_particip': '3'}},
+                       {'2': {'cant_particip': '2'}}, {'3': {'cant_particip': '3'}}]}
         :return: None.
         """
-        reunion = event["participaciones"]
-        for meet_user, ocurrence in reunion.items():
-            if meet_user in self._d_ocurrences:
-                self._d_ocurrences[meet_user] += ocurrence
-            else:
-                self._d_ocurrences[meet_user] = ocurrence
+        self.result=""
+        participations = event["Participations"]
+        for x in participations:
+            for key, value in x.items():
+                self.result=self.result+"El miembro del equipo "+str(key)+" participó "+str(value["cant_particip"])+" veces en la reunión. "
 
-    def calculate_value(self) -> Dict:
+    def calculate_value(self) -> str:
         """Devuelve todas las participaciones en reuniones dentro de un
         proyecto.
 
         Autor: Matias G.
 
-        :return: Dict.
+        :return: Str.
         """
-        return self._d_ocurrences
+        return self.result
 
 
 class MeetAsistance(CalculationStrategy):
@@ -224,6 +224,8 @@ class ControlTask(CalculationStrategy):
         self._n_asistance = 0
         self.tareas=[]
         self.result={}
+        self.valor=""
+        self.horashechas=0
 
     def __str__(self) -> str:
         return "(ControlTask: {})".format(self._n_asistance)
@@ -233,15 +235,18 @@ class ControlTask(CalculationStrategy):
 
     def process_event(self, event: dict) -> None:
         #d={"tareas":[{"id": 1, "horas":5},{"id":2, "horas":5}]}
-        list_tareas=event["tareas"]
-        for x in range(0,len(list_tareas)):
-            t = Tarea(x["id"],"desc",datetime.datetime.today(),datetime.datetime.today(),"agile","asd","in progress",10)
-            self.tareas.append(t)
-            self.result["id"]=t.get_puntos_restantes(x["horas"])
-
-    def calculate_value(self) -> dict:
-        d={}
-
+        print(event)
+        list_tareas=event["Tareas"]
+        for x in list_tareas:
+            for key, value in x.items():
+                horas=int(value["horas_totales"]) - int(value["horas_trabajadas"])
+                self.valor=self.valor+"La tarea "+ str(key)+ " necesita "+str(horas)+" hora/s más para ser finalizada. "
+                #t = Tarea(x["id"],"desc",datetime.datetime.today(),datetime.datetime.today(),"agile","asd","in progress",10)
+                #self.tareas.append(t)
+                #self.result["id"]=t.get_puntos_restantes(x["horas"])
+                self.horashechas=self.horashechas+int(value["horas_trabajadas"])
+   
+    def calculate_value(self) -> str:
+        resultado=self.valor+" El miembro del equipo trabajó "+str(self.horashechas)+" horas diarias."
         #for x in range(0,len(self.tareas)):
-
-        return d
+        return resultado

@@ -117,11 +117,20 @@ nlu:
 
 - regex: id_reunion
   examples: |
-    - \d{1,10}
+    - (^[a-zA-Z0-9_,]*$){1,25}
 
+- regex: id_agilebot
+  examples: |
+    - (^[a-zA-Z0-9_,]*$){1,25}
+  #    - \d{1,10}
 #- regex: list_tareas
  # examples: |
   #  - (?[[0-9]{1}?,[0-9]{1}?,[0-9]{1}?])
+
+- regex: id_facilitador
+  examples: |
+   - (^[a-zA-Z0-9_,]*$){1,25}
+
 - regex: fecha
   examples: |
     - (\d{1-4}-\d{2}-\d{2})
@@ -160,21 +169,43 @@ nlu:
     - Go to the meeting [1](id_reunion), [1](id_agilebot)
     - Go to the meeting [1](id_reunion), [2](id_agilebot)
     - Go to the meeting [1](id_reunion), [3](id_agilebot)
+    - Go to the meeting [Reunion](id_reunion), [Matias](id_agilebot)
+    - Go to the meeting [Pepepeppe](id_reunion), [Magali](id_agilebot)
+    - Go to the meeting [LAREUNION](id_reunion), [Martin](id_agilebot)
+    - Go to the meeting [AJASJAJAS](id_reunion), [Joaquin](id_agilebot)
+    - Go to the meeting [Reunion1](id_reunion), [Tincho](id_agilebot)
+    - Go to the meeting [asdsaads2332](id_reunion), [Gabriel](id_agilebot)
+    - Go to the meeting [REUNION1](id_reunion), [Tincho](id_agilebot)
+    - Go to the meeting [reunion](id_reunion), [Charly](id_agilebot)
+    - Go to the meeting [rdafadfaa](id_reunion), [Bruno](id_agilebot)
 
 - intent: facilitate_daily_meeting
   examples: |
     - Facilitate daily meeting [3](id_facilitador)
     - Facilitate daily meeting [2](id_facilitador)
     - Facilitate daily meeting [1](id_facilitador)
+    - Facilitate daily meeting [Tincho](id_facilitador)
+    - Facilitate daily meeting [Matias](id_facilitador)
+    - Facilitate daily meeting [Gabriel](id_facilitador)
+    - Facilitate daily meeting [Magali](id_facilitador)
+    - Facilitate daily meeting [Joaquin](id_facilitador)
+    - Facilitate daily meeting [AGILEBOT](id_facilitador)
 
 - intent: what_have_you_been_working_on
   examples: |
     - What have you been working on, 1?
     - What have you been working on, 2?
     - What have you been working on, 3?
+    - What have you been working on, Matias?
+    - What have you been working on, Tincho?
+    - What have you been working on, Joaquin?
+    - What have you been working on, Magali?
+    - What have you been working on, Carlos?
 
 - intent: working_on_tha_tasks
   examples: |
+    - I have been working on tha tasks [1:1:2, 4:1:2, 5:1:2]
+    - I have been working on tha tasks [2:1:2, 6:1:2, 5:1:2]
     - I have been working on tha tasks [1, 4, 5]
     - I have been working on tha tasks [2, 6, 5]
 
@@ -187,8 +218,25 @@ nlu:
   examples: |
     - The meeting [1](id_reunion) started: [2021-05-20](fecha) [11:15:23](hora)
     - The meeting [2](id_reunion) started: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [Reunion](id_reunion) started: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [Reunion1](id_reunion) started: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [REUNION](id_reunion) started: [2021-08-20](fecha) [12:15:23](hora)
+    - The meeting [asdsas](id_reunion) started: [2020-06-20](fecha) [10:15:23](hora)
+    - The meeting [Lareunion](id_reunion) started: [2021-04-15](fecha) [12:15:23](hora)
 
 - intent: ended_meeting
   examples: |
     - The meeting [1](id_reunion) ended: [2021-05-20](fecha) [11:15:23](hora)
     - The meeting [2](id_reunion) ended: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [Reunion](id_reunion) ended: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [Reunion1](id_reunion) ended: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [Reunionnn](id_reunion) ended: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [Daily](id_reunion) ended: [2021-06-20](fecha) [12:15:23](hora)
+    - The meeting [dailymeeting](id_reunion) ended: [2021-06-20](fecha) [12:15:23](hora)
+
+- intent: participations
+  examples: |
+    - The participations of the team members in the meeting are: [1:3, 2:2, 3:3]
+    - The participations of the team members in the meeting are: [Matias:3, Tincho:2, Bruno:3]
+    - The participations of the team members in the meeting are: [Juan:3, Tincho:2, Bruno:3]
+    - The participations of the team members in the meeting are: [Joshua:3, Magali:2, Bruno:3]
