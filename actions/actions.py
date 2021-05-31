@@ -16,68 +16,9 @@ from rasa_sdk.executor import CollectingDispatcher
 import json
 from typing import Dict, Callable
 
-import pika
-from pika.adapters.blocking_connection import BlockingChannel
-from pika.spec import Basic, BasicProperties
 from rasa_sdk.events import SlotSet
 
 controlStrategy=ControlStrategy()
-
-class EventPublisher:
-    """Clase para publicar eventos en un servidor y exchange determinado.
-
-    La documentacion de RabbitMQ recomienda separar la conexion de publicaciones
-    de la de subscripciones. Tambien recomienda un canal por thread.
-
-    Autor: Bruno.
-    """
-
-    def __init__(self, exchange_name: str, host: str = "amqps://urfvnqok:kDPF6YteXqwoKytSirWyl_HAisUjTGYl@woodpecker.rmq.cloudamqp.com/urfvnqok"):
-        """Constructor.
-        Crea una conexion al servidor de eventos solo para publicaciones.
-
-        Autor: Bruno.
-
-        :param exchange_name: nombre del exchange donde se publican los eventos.
-        :param host: host donde esta corriendo el servidor de eventos.
-        """
-        self._exchange_name = exchange_name
-        self._exchange_type = "topic"
-
-        # Crea conexion y canal para publicaciones.
-        self._publish_connection = pika.BlockingConnection(
-            pika.URLParameters(host))
-        self._publish_channel = self._publish_connection.channel()
-        # Crea el exchange (si no existe).
-        self._publish_channel.exchange_declare(
-            # TODO Si salta una excepcion de pika poner en True.
-            durable=False,
-            exchange=self._exchange_name, exchange_type=self._exchange_type)
-
-    def publish(self, event: str, payload: Dict) -> None:
-        """Publica el evento dado en el exchange, junto con un diccionario
-        que almacena su informacion.
-
-        Autor: Bruno.
-
-        :param event: evento a publicar.
-        :param payload: diccionario con datos del evento.
-        :return: None.
-        """
-        self._publish_channel.basic_publish(
-            self._exchange_name, routing_key=event, body=json.dumps(payload))
-
-    def close_connections(self) -> None:
-        """Cierra el canal y la conexion realizada en el servidor de eventos.
-
-        Autor: Bruno.
-
-        :return: None.
-        """
-        self._publish_channel.close()
-        self._publish_connection.close()
-
-#event_publisher=EventPublisher("log_eventos")
 
 class ActionHelloWorld(Action):
 
@@ -272,7 +213,7 @@ class ActionStartMeeting(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         ent_fecha= next(tracker.get_latest_entity_values("fecha"), None)
         ent_hora= next(tracker.get_latest_entity_values("hora"), None)
-        dispatcher.utter_message("La fecha es: "+str(ent_fecha)+" y la hora es: "+str(ent_hora))
+        dispatcher.utter_message("La fecha de inicio de la reunion es: "+str(ent_fecha)+" y la hora es: "+str(ent_hora))
         return [SlotSet("fecha_start", str(ent_fecha)),SlotSet("hora_start", str(ent_hora))]
 
 class ActionEndedMeeting(Action):
@@ -288,7 +229,7 @@ class ActionEndedMeeting(Action):
         ent_idreunion=next(tracker.get_latest_entity_values("id_reunion"), None)
         fecha_start=tracker.get_slot("fecha_start")
         hora_start=tracker.get_slot("hora_start")
-        dispatcher.utter_message("La fecha de inicio es: "+str(fecha_start)+ ", su hora: "+str(hora_start)+".La fecha de finalización es: " + str(ent_fecha)+" y la hora es: "+str(ent_hora))
+        dispatcher.utter_message("La fecha de inicio de la reunion es: "+str(fecha_start)+ ", su hora: "+str(hora_start)+". La fecha de finalización de la reunion es: " + str(ent_fecha)+" y la hora es: "+str(ent_hora))
         fecha_inicio=str(fecha_start)+str(" ")+str(hora_start)
         fecha_fin=str(ent_fecha)+str(" ")+str(ent_hora)
         d_intent={"intent":"ended_meeting","data":{"id":str(ent_idreunion),"fecha_start": str(fecha_inicio),"fecha_ended":str(fecha_fin)}}

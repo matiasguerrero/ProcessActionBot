@@ -236,6 +236,8 @@ class ControlTask(CalculationStrategy):
     def process_event(self, event: dict) -> None:
         #d={"tareas":[{"id": 1, "horas":5},{"id":2, "horas":5}]}
         print(event)
+        self.valor=""
+        self.horashechas=0
         list_tareas=event["Tareas"]
         for x in list_tareas:
             for key, value in x.items():

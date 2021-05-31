@@ -190,6 +190,7 @@ nlu:
     - Facilitate daily meeting [Magali](id_facilitador)
     - Facilitate daily meeting [Joaquin](id_facilitador)
     - Facilitate daily meeting [AGILEBOT](id_facilitador)
+    - Facilitate daily meeting [AGILEBOTe](id_facilitador)
 
 - intent: what_have_you_been_working_on
   examples: |

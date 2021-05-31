@@ -11,7 +11,8 @@ from event_handling.event_handling import EventSubscriber
 class AccessChatbot:
 
     def __init__(self):
-        self.url = 'http://localhost:5005/webhooks/rest/webhook/'  ##change rasablog with your app name
+        self.url = 'https://pserveronline.herokuapp.com/webhooks/rest/webhook'
+        #'http://localhost:5005/webhooks/rest/webhook/'  ##change rasablog with your app name
 
     def response(self, mensaje, sender):
         myobj = {
@@ -40,19 +41,19 @@ class ProcessActionBot:
             if 'from' in body_json:
                 sender = body_json["from"]
             message_receive = self.process_action_bot.response(body_json['message'], sender).json()
-            print(message_receive)
+            self.print_message(message_receive)
         # publisher.publish("process_to_agile_bot", {"text": message_receive["text"]})
         return self.callbackProcess
 
 
     def callbackStartMeet(self,ch, method, properties, body):
-        print(body)
         body_json = json.loads(body)
         message = ""
         if ("time" in body_json) and ("meeting_id" in body_json):
             message = "The meeting " + str(body_json["meeting_id"]) + " started: " + str(body_json["time"])
+            print(message)
             message_receive = self.process_action_bot.response(message, "Server").json()
-            print(message_receive)
+            self.print_message(message_receive)
         return self.callbackStartMeet
 
 
@@ -78,15 +79,25 @@ class ProcessActionBot:
 
     def get_callback_time_meeting(self,type: str) -> Callable:
         def callbackTimeMeet(ch, method, properties, body):
-            print(body)
             body_json = json.loads(body)
             if ("time" in body_json) and ("meeting_id" in body_json):
                 message = self.get_mensaje(str(body_json["meeting_id"]), str(body_json["time"]), type)
+                print(message)
                 message_receive = self.process_action_bot.response(message, "Server").json()
-                print(message_receive)
+                self.print_message(message_receive)
             if ("participations" in body_json):
                 message = self.get_message_participations(body_json)
+                print(message)
                 message_receive = self.process_action_bot.response(message, "Server").json()
-                print(message_receive)
+                self.print_message(message_receive)
         return callbackTimeMeet
 
+    def print_message(self, message_receive):
+        i=0
+        for x in message_receive:
+            if i==0:
+                print("Message from: "+str(x['recipient_id']))
+            print("ProcessActionBot: "+str(x['text']))
+            i=i+1
+        print(" ")
+process=ProcessActionBot()
