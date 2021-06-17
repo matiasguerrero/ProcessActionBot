@@ -18,7 +18,9 @@ from typing import Dict, Callable
 
 from rasa_sdk.events import SlotSet
 
+from actions.event_handling import EventPublisher
 controlStrategy=ControlStrategy()
+publisher=EventPublisher("log_eventos")
 
 class ActionHelloWorld(Action):
 
@@ -157,9 +159,9 @@ class ActionTasks(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        #intent_name=tracker.latest_message['intent'].get('name')
-        #task_string=get_list_string(tracker)
-        #dispatcher.utter_message(text="Tareas "+str(task_string))
+        #Gets the lattest_message from the tracker 
+        # and returns a dictionary
+        #{Tasks: ["task_id": {hours_worked: value, total_hours: value}]
         dict_data=metricas_tareas(tracker)
         dict_tareas={"intent": "working_on_tha_tasks", "data":dict_data}
         dispatcher.utter_message(controlStrategy.process_intent(dict_tareas))
@@ -279,4 +281,36 @@ class ActionParticipations(Action):
         d=get_participations(tracker)
         d_intent={"intent":"participations","data":d}
         dispatcher.utter_message(controlStrategy.process_intent(d_intent))
+        return []
+    
+class ActionControlMeetingFalse(Action):
+
+    def name(self) -> Text:
+        return "action_controlmeeting_false"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        #Gets the lattest_message from the tracker 
+        # and returns a dictionary
+        #{Tasks: ["task_id": {hours_worked: value, total_hours: value}]
+        ent_idreunion=next(tracker.get_latest_entity_values("id_reunion"), None)
+        publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" no fue realizada", "from": "ProcessActionBot", "to":"Scrum Master"})
+        dispatcher.utter_message(text="Se informará al Scrum Master")
+        return []
+
+class ActionControlMeetingTrue(Action):
+
+    def name(self) -> Text:
+        return "action_controlmeeting_true"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        #Gets the lattest_message from the tracker 
+        # and returns a dictionary
+        #{Tasks: ["task_id": {hours_worked: value, total_hours: value}]
+        ent_idreunion=next(tracker.get_latest_entity_values("id_reunion"), None)
+        publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" fue realizada sin problemas", "from": "ProcessActionBot", "to":"Scrum Master"})
+        dispatcher.utter_message(text="Se informará al Scrum Master")
         return []

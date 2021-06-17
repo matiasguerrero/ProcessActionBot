@@ -241,3 +241,15 @@ nlu:
     - The participations of the team members in the meeting are: [Matias:3, Tincho:2, Bruno:3]
     - The participations of the team members in the meeting are: [Juan:3, Tincho:2, Bruno:3]
     - The participations of the team members in the meeting are: [Joshua:3, Magali:2, Bruno:3]
+
+- intent: controlmeet_false
+  examples: |
+    - La Daily Meeting [1](id_reunion) no fue realizada
+    - La Daily Meeting [DailyMeet](id_reunion) no fue realizada
+    - La Daily Meeting [Reunion](id_reunion) no fue realizada
+
+- intent: controlmeet_true
+  examples: |
+    - La Daily Meeting [1](id_reunion) fue realizada
+    - La Daily Meeting [DailyMeet](id_reunion) fue realizada
+    - La Daily Meeting [Reunion](id_reunion) fue realizada

@@ -27,6 +27,8 @@ intents:
   - started_meeting
   - ended_meeting
   - participations
+  - controlmeet_false
+  - controlmeet_true
 
 entities:
   - id_reunion
@@ -75,6 +77,8 @@ actions:
   - action_start_meeting
   - action_ended_meeting
   - action_participations
+  - action_controlmeeting_false
+  - action_controlmeeting_true
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

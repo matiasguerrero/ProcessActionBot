@@ -57,12 +57,10 @@ class ControlStrategy:
             strategies = self._d_intentStrateg[intent_name]["strategies"]
             for key_strategy, data_strategy in strategies.items():
                 result = result + "Métrica calculada: " + str(key_strategy) + " "
-                print(key_strategy)
-                print(data_strategy)
                 strategy = data_strategy["Constructor"]
-                #data {"id":numero}
                 strategy.process_event(data)
                 result = result + " Result: " + self.process_result(strategy,strategy.calculate_value())
+                #Result: The function has the metric calculation in the form of a String
         return result
 
     def process_intent(self, kwargs:dict) -> str:

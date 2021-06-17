@@ -49,11 +49,6 @@ stories:
   - intent: confirmacion_propuesta_reunion
   - action: action_hello_world
 
-- story: tareas
-  steps:
-  - intent: working_on_tha_tasks
-  - action: action_tasks
-
 - story: ir_meeting
   steps:
   - intent: go_to_meeting
@@ -63,6 +58,11 @@ stories:
   steps:
   - intent: facilitate_daily_meeting
   - action: action_facilitador
+
+- story: tareas
+  steps:
+  - intent: working_on_tha_tasks
+  - action: action_tasks
 
 - story: ask_working_on_tha_tasks
   steps:
@@ -88,3 +88,13 @@ stories:
   steps:
   - intent: participations
   - action: action_participations
+
+- story: control_meeting
+  steps:
+  - intent: controlmeet_false
+  - action: action_controlmeeting_false
+
+- story: control_meeting_true
+  steps:
+  - intent: controlmeet_true
+  - action: action_controlmeeting_true

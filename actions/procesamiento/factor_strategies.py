@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 from actions.procesamiento.tarea import Tarea
 from actions.procesamiento.fase import Fase
-
+from actions.event_handling import EventPublisher
 
 class CalculationStrategy(metaclass=abc.ABCMeta):
     """Interfaz que define el comportamiento basico requerido por una estrategia
@@ -234,8 +234,7 @@ class ControlTask(CalculationStrategy):
         return "ControlTask"
 
     def process_event(self, event: dict) -> None:
-        #d={"tareas":[{"id": 1, "horas":5},{"id":2, "horas":5}]}
-        print(event)
+        #event={Tasks: ["task_id": {hours_worked: value, total_hours: value}]
         self.valor=""
         self.horashechas=0
         list_tareas=event["Tareas"]
@@ -243,12 +242,13 @@ class ControlTask(CalculationStrategy):
             for key, value in x.items():
                 horas=int(value["horas_totales"]) - int(value["horas_trabajadas"])
                 self.valor=self.valor+"La tarea "+ str(key)+ " necesita "+str(horas)+" hora/s más para ser finalizada. "
-                #t = Tarea(x["id"],"desc",datetime.datetime.today(),datetime.datetime.today(),"agile","asd","in progress",10)
-                #self.tareas.append(t)
-                #self.result["id"]=t.get_puntos_restantes(x["horas"])
                 self.horashechas=self.horashechas+int(value["horas_trabajadas"])
-   
+    
     def calculate_value(self) -> str:
         resultado=self.valor+" El miembro del equipo trabajó "+str(self.horashechas)+" horas diarias."
-        #for x in range(0,len(self.tareas)):
+        #if self.horashechas < agilebot.get_horasminimas():
+        #    EventPublisher().publish("message",
+        #     {  "message": "El miembro del equipo no trabajó las horas minimas diarias", 
+        #        "from":"ProcessActionBot",
+        #         "to":"Scrum Master"})
         return resultado

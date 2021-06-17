@@ -14,7 +14,11 @@ class EventSubscriber:
 
     Autor: Bruno.
     """
-    def __init__(self, exchange_name: str, host: str = "amqps://urfvnqok:kDPF6YteXqwoKytSirWyl_HAisUjTGYl@woodpecker.rmq.cloudamqp.com/urfvnqok"):
+
+    # Highly recomended using RabbitMQ locally for dev and test. Mainly because of possible problems with other people publishing events
+    # but also because of performance. Both init params and connection method must be changed
+    def __init__(self, exchange_name: str, host: str = "amqps://qacbbkir:SaSlHJKAr16CFWuaeIoKg4ZGeYCE5E2h@clam.rmq.cloudamqp.com/qacbbkir"):
+    #def __init__(self, exchange_name: str, host: str = "localhost"):
         """Constructor.
         Crea una conexion al servidor de eventos solo para subscripciones.
 
@@ -29,11 +33,12 @@ class EventSubscriber:
         # Crea conexion y canal para subscripciones.
         self._subscribe_connection = pika.BlockingConnection(
             pika.URLParameters(host))
+            #pika.ConnectionParameters(host))
         self._subscribe_channel = self._subscribe_connection.channel()
         # Crea el exchange (si no existe).
         self._subscribe_channel.exchange_declare(
             # TODO Si salta una excepcion de pika poner en True.
-            durable=False,
+            durable=True,
             exchange=self._exchange_name, exchange_type=self._exchange_type)
 
     def subscribe(
@@ -92,7 +97,8 @@ class EventPublisher:
     Autor: Bruno.
     """
 
-    def __init__(self, exchange_name: str, host: str = "amqps://urfvnqok:kDPF6YteXqwoKytSirWyl_HAisUjTGYl@woodpecker.rmq.cloudamqp.com/urfvnqok"):
+    def __init__(self, exchange_name: str, host: str = "amqps://qacbbkir:SaSlHJKAr16CFWuaeIoKg4ZGeYCE5E2h@clam.rmq.cloudamqp.com/qacbbkir"):
+    #def __init__(self, exchange_name: str, host: str = "localhost"):
         """Constructor.
         Crea una conexion al servidor de eventos solo para publicaciones.
 
@@ -107,11 +113,12 @@ class EventPublisher:
         # Crea conexion y canal para publicaciones.
         self._publish_connection = pika.BlockingConnection(
             pika.URLParameters(host))
+            #pika.ConnectionParameters(host))
         self._publish_channel = self._publish_connection.channel()
         # Crea el exchange (si no existe).
         self._publish_channel.exchange_declare(
             # TODO Si salta una excepcion de pika poner en True.
-            durable=False,
+            durable=True,
             exchange=self._exchange_name, exchange_type=self._exchange_type)
 
     def publish(self, event: str, payload: Dict) -> None:
@@ -136,3 +143,4 @@ class EventPublisher:
         """
         self._publish_channel.close()
         self._publish_connection.close()
+
