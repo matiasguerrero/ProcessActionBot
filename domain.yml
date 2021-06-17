@@ -29,6 +29,9 @@ intents:
   - participations
   - controlmeet_false
   - controlmeet_true
+  - empieza_meet
+  - avances_not
+  - gracias_facilitador
 
 entities:
   - id_reunion

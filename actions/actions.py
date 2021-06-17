@@ -102,8 +102,8 @@ class ActionStrategy(Action):
         #event_publisher.publish(str(intent_name),d_send)
         return []
 
-def get_list_string (tracker: Tracker) -> List:
-    task_string=str(tracker.latest_message.get("text")).split("[")
+def get_list_string (palabra : str) -> List:
+    task_string=palabra.split("[")
     print(task_string)
     task_string2=str(task_string[1]).split("]")
     task_string3=str(task_string2[0]).split(",")
@@ -117,10 +117,15 @@ def get_list_string (tracker: Tracker) -> List:
             task_string4.append(x_string)
     return task_string4
 
-def metricas_tareas(tracker: Tracker) -> dict:
+def metricas_tareas(tracker: Tracker, dispatcher: CollectingDispatcher) -> dict:
     task_string=str(tracker.latest_message.get("text")).split("[")
-    print(task_string)
     task_string2=str(task_string[1]).split("]")
+    if len(task_string)> 2:
+        print("imprimo despues del ]")
+        print(task_string2[1])
+        print("asdasd")
+        reuniones=get_list_string(str("[")+task_string[2])
+        dispatcher.utter_message(text="El agilebot asistio a las reuniones: "+str(reuniones))
     task_string3=str(task_string2[0]).split(",")
     dict_tareas={}
     lista_tareas=[]
@@ -162,7 +167,7 @@ class ActionTasks(Action):
         #Gets the lattest_message from the tracker 
         # and returns a dictionary
         #{Tasks: ["task_id": {hours_worked: value, total_hours: value}]
-        dict_data=metricas_tareas(tracker)
+        dict_data=metricas_tareas(tracker,dispatcher)
         dict_tareas={"intent": "working_on_tha_tasks", "data":dict_data}
         dispatcher.utter_message(controlStrategy.process_intent(dict_tareas))
         return []
@@ -201,7 +206,8 @@ class ActionMeetings(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         #intent_name=tracker.latest_message['intent'].get('name')
-        task_string=get_list_string(tracker)
+        palabra=str(tracker.latest_message.get("text"))
+        task_string=get_list_string(palabra)
         dispatcher.utter_message(text="El agilebot asistio a las reuniones: "+str(task_string))
         return []
 

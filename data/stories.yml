@@ -64,6 +64,14 @@ stories:
   - intent: working_on_tha_tasks
   - action: action_tasks
 
+- story: story_irrelevante
+  steps:
+  - or:
+    - intent: empieza_meet
+    - intent: avances_not
+    - intent: gracias_facilitador
+  - action: utter_irrelevante
+
 - story: ask_working_on_tha_tasks
   steps:
   - intent: what_have_you_been_working_on

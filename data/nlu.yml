@@ -202,6 +202,9 @@ nlu:
     - What have you been working on, Joaquin?
     - What have you been working on, Magali?
     - What have you been working on, Carlos?
+    - ¿Que hiciste ayer, rama?
+    - ¿Que hiciste ayer, Fede?
+    - ¿Que hiciste ayer, Tincho?
 
 - intent: working_on_tha_tasks
   examples: |
@@ -209,6 +212,10 @@ nlu:
     - I have been working on tha tasks [2:1:2, 6:1:2, 5:1:2]
     - I have been working on tha tasks [1, 4, 5]
     - I have been working on tha tasks [2, 6, 5]
+    - He estado trabajando con las tareas [ 3:1:4 ] y fui a las reuniones [1, 2]
+    - He estado trabajando con las tareas [ 3:1:4, 2:1:2 ] y fui a las reuniones [1]
+    - En primer lugar, tengo que decir que he estado trabajando con las tareas [ 1:1:3 ] y fui a las reuniones [1]
+    - En primer lugar, tengo que decir que he estado trabajando con las tareas [ 3:1:4, 2:1:2 ] y fui a las reuniones [1]
 
 - intent: went_to_meetings
   examples: |
@@ -253,3 +260,19 @@ nlu:
     - La Daily Meeting [1](id_reunion) fue realizada
     - La Daily Meeting [DailyMeet](id_reunion) fue realizada
     - La Daily Meeting [Reunion](id_reunion) fue realizada
+
+- intent: empieza_meet
+  examples: |
+    - Hola! Empezamos con la daily meeting
+    - Buenas! Empezamos con la daily meeting
+
+- intent: avances_not
+  examples: |
+    - No he tenido avances desde la última reunión
+    - No tuve avances
+
+- intent: gracias_facilitador
+  examples: |
+    - Gracias por asistir a la reunión. Pueden continuar con su trabajo
+    - Gracias por asistir a la reunión. 
+    - Pueden continuar con su trabajo
