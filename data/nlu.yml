@@ -139,6 +139,10 @@ nlu:
   examples: |
     - (\d{2}:\d{2}:\d{2})
 
+- regex: members_meeting
+  examples: |
+    - ((([aA-zZ]\w+ *){1,})+(, )*){1,}
+
 - intent: finaliza_reunion
   examples: |
     - Finalizo la reunion [1](id_reunion)
@@ -276,3 +280,22 @@ nlu:
     - Gracias por asistir a la reunión. Pueden continuar con su trabajo
     - Gracias por asistir a la reunión. 
     - Pueden continuar con su trabajo
+
+- intent: hizo_reunion
+  examples: |
+    - Se realizo la reunion [1](id_reunion) del equipo formado por [Mati Guerrero, Bruno Guidi]{"entity": "members_meeting"}
+    - Se realizo la reunion [Daily Meet](id_reunion) del equipo formado por [Maga, Sofia, Erick]{"entity": "members_meeting"}
+    - Se realizo la reunion [Daily Meeting](id_reunion) del equipo formado por [Josh, Bruno]{"entity": "members_meeting"}
+    - Se realizo la reunion [Reunion](id_reunion) del equipo formado por [Tincho, Matias]{"entity": "members_meeting"}
+    - Se realizo la reunion [2](id_reunion) del equipo formado por [Tincho, Rama, Fede]{"entity": "members_meeting"}
+    - Se realizo la reunion [2](id_reunion) del equipo formado por [Tincho Lorenzo, Rama, Fede]{"entity": "members_meeting"}
+
+- intent: no_hizo_reunion
+  examples: |
+    - La reunion [1](id_reunion) del equipo formado por [Mati Guerrero, Bruno Guidi]{"entity": "members_meeting"} no se llevo a cabo
+    - La reunion [Daily Meet](id_reunion) del equipo formado por [Maga, Sofia, Erick]{"entity": "members_meeting"} no se llevo a cabo
+    - La reunion [Daily Meeting](id_reunion) del equipo formado por [Josh, Bruno]{"entity": "members_meeting"} no se llevo a cabo
+    - La reunion [Reunion](id_reunion) del equipo formado por [Tincho, Matias]{"entity": "members_meeting"} no se llevo a cabo
+    - La reunion [2](id_reunion) del equipo formado por [Tincho, Rama, Fede]{"entity": "members_meeting"} no se llevo a cabo
+    - La reunion [2](id_reunion) del equipo formado por [Tincho Lorenzo, Rama, Fede]{"entity": "members_meeting"} no se llevo a cabo
+

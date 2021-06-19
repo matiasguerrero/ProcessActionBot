@@ -106,3 +106,13 @@ stories:
   steps:
   - intent: controlmeet_true
   - action: action_controlmeeting_true
+
+- story: se_hizo_meet
+  steps:
+  - intent: hizo_reunion
+  - action: action_hizo_meet
+
+- story: no_se_hizo_meet
+  steps:
+  - intent: no_hizo_reunion
+  - action: action_hizo_meet

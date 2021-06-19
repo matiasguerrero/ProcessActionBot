@@ -120,10 +120,7 @@ def get_list_string (palabra : str) -> List:
 def metricas_tareas(tracker: Tracker, dispatcher: CollectingDispatcher) -> dict:
     task_string=str(tracker.latest_message.get("text")).split("[")
     task_string2=str(task_string[1]).split("]")
-    if len(task_string)> 2:
-        print("imprimo despues del ]")
-        print(task_string2[1])
-        print("asdasd")
+    if len(task_string)> 2: # Si se agrega "y fui a las reuniones [1]"
         reuniones=get_list_string(str("[")+task_string[2])
         dispatcher.utter_message(text="El agilebot asistio a las reuniones: "+str(reuniones))
     task_string3=str(task_string2[0]).split(",")
@@ -318,5 +315,27 @@ class ActionControlMeetingTrue(Action):
         #{Tasks: ["task_id": {hours_worked: value, total_hours: value}]
         ent_idreunion=next(tracker.get_latest_entity_values("id_reunion"), None)
         publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" fue realizada sin problemas", "from": "ProcessActionBot", "to":"Scrum Master"})
+        dispatcher.utter_message(text="Se informará al Scrum Master")
+        return []
+
+class ActionHizoMeet(Action):
+
+    def name(self) -> Text:
+        return "action_hizo_meet"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        ent_membersmeeting=""
+        ent_idreunion=next(tracker.get_latest_entity_values("id_reunion"), None)
+        for entity in tracker.get_latest_entity_values("members_meeting"):
+            if ent_membersmeeting=="":
+                ent_membersmeeting=ent_membersmeeting+str(entity)
+            else:
+                ent_membersmeeting=ent_membersmeeting+", "+str(entity)
+        if str(tracker.latest_message['intent']['name'])=="hizo_reunion":
+            publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" fue realizada sin problemas con el equipo formado por: "+str(ent_membersmeeting), "from": "ProcessActionBot", "to":"Scrum Master"})
+        else:
+             publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" del equipo formado por: "+str(ent_membersmeeting)+" no se realizó", "from": "ProcessActionBot", "to":"Scrum Master"})
         dispatcher.utter_message(text="Se informará al Scrum Master")
         return []

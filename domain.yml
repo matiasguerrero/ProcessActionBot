@@ -32,6 +32,8 @@ intents:
   - empieza_meet
   - avances_not
   - gracias_facilitador
+  - hizo_reunion
+  - no_hizo_reunion
 
 entities:
   - id_reunion
@@ -41,6 +43,7 @@ entities:
   - lista_tareas
   - fecha
   - hora
+  - members_meeting
 
 slots:
   fecha_start:
@@ -82,6 +85,7 @@ actions:
   - action_participations
   - action_controlmeeting_false
   - action_controlmeeting_true
+  - action_hizo_meet
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
