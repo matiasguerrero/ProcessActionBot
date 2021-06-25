@@ -34,6 +34,7 @@ intents:
   - gracias_facilitador
   - hizo_reunion
   - no_hizo_reunion
+  - tarea_hizo
 
 entities:
   - id_reunion
@@ -86,6 +87,7 @@ actions:
   - action_controlmeeting_false
   - action_controlmeeting_true
   - action_hizo_meet
+  - action_tareahizo
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

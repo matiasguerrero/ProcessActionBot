@@ -209,6 +209,11 @@ nlu:
     - ¿Que hiciste ayer, rama?
     - ¿Que hiciste ayer, Fede?
     - ¿Que hiciste ayer, Tincho?
+    - ¿En qué estuviste trabajando ayer, Erick?
+    - ¿En qué estuviste trabajando ayer, Tincho?
+    - ¿En qué estuviste trabajando ayer, Federico?
+    - ¿En qué estuviste trabajando ayer, Rama?
+    - ¿En qué estuviste trabajando ayer, Matias?
 
 - intent: working_on_tha_tasks
   examples: |
@@ -302,3 +307,8 @@ nlu:
     - La reunion [2](id_reunion) del equipo formado por [Tincho, Rama, Fede]{"entity": "members_meeting"} no se llevo a cabo
     - La reunion [2](id_reunion) del equipo formado por [Tincho Lorenzo, Rama, Fede]{"entity": "members_meeting"} no se llevo a cabo
 
+- intent: tarea_hizo
+  examples: |
+    - He estado trabajando en la tarea [5](id_agilebot)
+    - He estado trabajando en la tarea [7](id_agilebot)
+    - He estado trabajando en la tarea [6](id_agilebot)

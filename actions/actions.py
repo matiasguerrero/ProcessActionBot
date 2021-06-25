@@ -361,3 +361,15 @@ class ActionHizoMeet(Action):
             #response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" del equipo formado por: "+str(ent_membersmeeting)+" no se realizó")
         dispatcher.utter_message(text="Se informará al Scrum Master")
         return []
+
+class ActionTareaHizo(Action):
+
+    def name(self) -> Text:
+        return "action_tareahizo"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        ent_agilebot= next(tracker.get_latest_entity_values("id_agilebot"), None)
+        dispatcher.utter_message("El agilebot estuvo trabajando en la tarea: "+str(ent_agilebot))
+        return []
