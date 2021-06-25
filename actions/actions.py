@@ -23,7 +23,7 @@ from actions.event_handling import EventPublisher
 controlStrategy=ControlStrategy()
 publisher=EventPublisher("log_eventos")
 
-url="http://localhost:5055/webhook"
+url='http://localhost:5005/webhooks/rest/webhook/'
 def response(sender:str, message:str, metadata:str):
     myobj = {
         "message": message,
@@ -177,7 +177,7 @@ class ActionTasks(Action):
         dict_data=metricas_tareas(tracker,dispatcher)
         dict_tareas={"intent": "working_on_tha_tasks", "data":dict_data}
         message=controlStrategy.process_intent(dict_tareas)
-        #response("ProcessActionBot","notificar a Josh",message)
+        response("ProcessActionBot","notificar a Josh",message)
         dispatcher.utter_message(message)
         return []
 
@@ -218,7 +218,7 @@ class ActionMeetings(Action):
         palabra=str(tracker.latest_message.get("text"))
         task_string=get_list_string(palabra)
         message="El agilebot asistio a las reuniones: "+str(task_string)
-        #response("ProcessActionBot","notificar a Josh",message)
+        response("ProcessActionBot","notificar a Josh",message)
         dispatcher.utter_message(text=message)
         return []
 
@@ -252,9 +252,10 @@ class ActionEndedMeeting(Action):
         fecha_inicio=str(fecha_start)+str(" ")+str(hora_start)
         fecha_fin=str(ent_fecha)+str(" ")+str(ent_hora)
         d_intent={"intent":"ended_meeting","data":{"id":str(ent_idreunion),"fecha_start": str(fecha_inicio),"fecha_ended":str(fecha_fin)}}
-        message=controlStrategy.process_intent(d_intent)
-        #response("ProcessActionBot","notificar a Josh",message)
-        dispatcher.utter_message(message)
+        if (fecha_start is not None) and (hora_start is not None):
+            message=controlStrategy.process_intent(d_intent)
+            response("ProcessActionBot","notificar a Josh",message)
+            dispatcher.utter_message(message)
         return []
 
 
@@ -300,7 +301,7 @@ class ActionParticipations(Action):
         d=get_participations(tracker)
         d_intent={"intent":"participations","data":d}
         message=controlStrategy.process_intent(d_intent)
-        #response("ProcessActionBot","notificar a Josh",message)
+        response("ProcessActionBot","notificar a Josh",message)
         dispatcher.utter_message(message)
         return []
     
@@ -317,7 +318,7 @@ class ActionControlMeetingFalse(Action):
         #{Tasks: ["task_id": {hours_worked: value, total_hours: value}]
         ent_idreunion=next(tracker.get_latest_entity_values("id_reunion"), None)
         publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" no fue realizada", "from": "ProcessActionBot", "to":"Scrum Master"})
-        #response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" no fue realizada")
+        response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" no fue realizada")
         dispatcher.utter_message(text="Se informará al Scrum Master")
         return []
 
@@ -334,7 +335,7 @@ class ActionControlMeetingTrue(Action):
         #{Tasks: ["task_id": {hours_worked: value, total_hours: value}]
         ent_idreunion=next(tracker.get_latest_entity_values("id_reunion"), None)
         publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" fue realizada sin problemas", "from": "ProcessActionBot", "to":"Scrum Master"})
-        #response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" fue realizada sin problemas")
+        response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" fue realizada sin problemas")
         dispatcher.utter_message(text="Se informará al Scrum Master")
         return []
 
@@ -355,10 +356,10 @@ class ActionHizoMeet(Action):
                 ent_membersmeeting=ent_membersmeeting+", "+str(entity)
         if str(tracker.latest_message['intent']['name'])=="hizo_reunion":
             publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" fue realizada sin problemas con el equipo formado por: "+str(ent_membersmeeting), "from": "ProcessActionBot", "to":"Scrum Master"})
-            #response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" fue realizada sin problemas con el equipo formado por: "+str(ent_membersmeeting))
+            response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" fue realizada sin problemas con el equipo formado por: "+str(ent_membersmeeting))
         else:
             publisher.publish("message",{"message":"La reunion "+str(ent_idreunion)+" del equipo formado por: "+str(ent_membersmeeting)+" no se realizó", "from": "ProcessActionBot", "to":"Scrum Master"})
-            #response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" del equipo formado por: "+str(ent_membersmeeting)+" no se realizó")
+            response("ProcessActionBot","notificar a Josh","La reunion "+str(ent_idreunion)+" del equipo formado por: "+str(ent_membersmeeting)+" no se realizó")
         dispatcher.utter_message(text="Se informará al Scrum Master")
         return []
 
